@@ -184,9 +184,9 @@ module Bigtest
         options[:filter] = a
       end
 
-      opts.on "-m", "--mx MX", "Which MX to run tests on." do |mx|
-        options[:mx] = mx
-        puts "We are using MX"
+      opts.on "-m", "--meraki NODE", "Information about the node (Meraki specific)" do |node|
+        $node = node.gsub(/[{}:]/,'').split(',').map{|h| h1,h2 = h.split('=>'); {h1 => h2}}.reduce(:merge)
+        options[:node] = $node
       end
 
       unless extensions.empty?
