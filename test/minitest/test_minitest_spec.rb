@@ -1,9 +1,9 @@
 # encoding: utf-8
-require "minitest/autorun"
+require_relative "./minitest/autorun"
 require "stringio"
 
-class MiniSpecA < Minitest::Spec; end
-class MiniSpecB < Minitest::Test; extend Minitest::Spec::DSL; end
+class MiniSpecA < Bigtest::Spec; end
+class MiniSpecB < Bigtest::Test; extend Bigtest::Spec::DSL; end
 class MiniSpecC < MiniSpecB; end
 class NamedExampleA < MiniSpecA; end
 class NamedExampleB < MiniSpecB; end
@@ -11,10 +11,10 @@ class NamedExampleC < MiniSpecC; end
 class ExampleA; end
 class ExampleB < ExampleA; end
 
-describe Minitest::Spec do
+describe Bigtest::Spec do
   # do not parallelize this suite... it just can"t handle it.
 
-  def assert_triggered expected = "blah", klass = Minitest::Assertion
+  def assert_triggered expected = "blah", klass = Bigtest::Assertion
     @assertion_count += 1
 
     e = assert_raises(klass) do
@@ -49,7 +49,7 @@ describe Minitest::Spec do
     _(self.assertions).must_equal @assertion_count if passed? and not skipped?
   end
 
-  it "needs to be able to catch a Minitest::Assertion exception" do
+  it "needs to be able to catch a Bigtest::Assertion exception" do
     @assertion_count = 1
 
     assert_triggered "Expected 1 to not be equal to 1." do
@@ -89,7 +89,7 @@ describe Minitest::Spec do
     @assertion_count = 2
 
     proc { raise "blah" }.must_raise RuntimeError
-    proc { raise Minitest::Assertion }.must_raise Minitest::Assertion
+    proc { raise Bigtest::Assertion }.must_raise Bigtest::Assertion
   end
 
   it "needs to catch an unexpected exception" do
@@ -97,17 +97,17 @@ describe Minitest::Spec do
 
     msg = <<-EOM.gsub(/^ {6}/, "").chomp
       [RuntimeError] exception expected, not
-      Class: <Minitest::Assertion>
-      Message: <"Minitest::Assertion">
+      Class: <Bigtest::Assertion>
+      Message: <"Bigtest::Assertion">
       ---Backtrace---
     EOM
 
     assert_triggered msg do
-      proc { raise Minitest::Assertion }.must_raise RuntimeError
+      proc { raise Bigtest::Assertion }.must_raise RuntimeError
     end
 
     assert_triggered "msg.\n#{msg}" do
-      proc { raise Minitest::Assertion }.must_raise RuntimeError, "msg"
+      proc { raise Bigtest::Assertion }.must_raise RuntimeError, "msg"
     end
   end
 
@@ -575,7 +575,7 @@ describe Minitest::Spec do
   end
 end
 
-describe Minitest::Spec, :let do
+describe Bigtest::Spec, :let do
   i_suck_and_my_tests_are_order_dependent!
 
   def _count
@@ -632,7 +632,7 @@ describe Minitest::Spec, :let do
   end
 end
 
-describe Minitest::Spec, :subject do
+describe Bigtest::Spec, :subject do
   attr_reader :subject_evaluation_count
 
   subject do
@@ -648,9 +648,9 @@ describe Minitest::Spec, :subject do
   end
 end
 
-class TestMetaStatic < Minitest::Test
+class TestMetaStatic < Bigtest::Test
   def test_children
-    Minitest::Spec.children.clear # prevents parallel run
+    Bigtest::Spec.children.clear # prevents parallel run
 
     y = z = nil
     x = describe "top-level thingy" do
@@ -661,14 +661,14 @@ class TestMetaStatic < Minitest::Test
       z = describe "second thingy" do end
     end
 
-    assert_equal [x], Minitest::Spec.children
+    assert_equal [x], Bigtest::Spec.children
     assert_equal [y, z], x.children
     assert_equal [], y.children
     assert_equal [], z.children
   end
 
   def test_it_wont_remove_existing_child_test_methods
-    Minitest::Spec.children.clear # prevents parallel run
+    Bigtest::Spec.children.clear # prevents parallel run
 
     inner = nil
     outer = describe "outer" do
@@ -687,7 +687,7 @@ class TestMetaStatic < Minitest::Test
   end
 
   def test_it_wont_add_test_methods_to_children
-    Minitest::Spec.children.clear # prevents parallel run
+    Bigtest::Spec.children.clear # prevents parallel run
 
     inner = nil
     outer = describe "outer" do
@@ -737,39 +737,39 @@ class TestMeta < MetaMetaMetaTestCase
   end
 
   def test_register_spec_type
-    original_types = Minitest::Spec::TYPES.dup
+    original_types = Bigtest::Spec::TYPES.dup
 
-    assert_includes Minitest::Spec::TYPES, [//, Minitest::Spec]
+    assert_includes Bigtest::Spec::TYPES, [//, Bigtest::Spec]
 
-    Minitest::Spec.register_spec_type(/woot/, TestMeta)
+    Bigtest::Spec.register_spec_type(/woot/, TestMeta)
 
     p = lambda do |_| true end
-    Minitest::Spec.register_spec_type TestMeta, &p
+    Bigtest::Spec.register_spec_type TestMeta, &p
 
-    keys = Minitest::Spec::TYPES.map(&:first)
+    keys = Bigtest::Spec::TYPES.map(&:first)
 
     assert_includes keys, /woot/
     assert_includes keys, p
   ensure
-    Minitest::Spec::TYPES.replace original_types
+    Bigtest::Spec::TYPES.replace original_types
   end
 
   def test_spec_type
-    original_types = Minitest::Spec::TYPES.dup
+    original_types = Bigtest::Spec::TYPES.dup
 
-    Minitest::Spec.register_spec_type(/A$/, MiniSpecA)
-    Minitest::Spec.register_spec_type MiniSpecB do |desc|
+    Bigtest::Spec.register_spec_type(/A$/, MiniSpecA)
+    Bigtest::Spec.register_spec_type MiniSpecB do |desc|
       desc.superclass == ExampleA
     end
-    Minitest::Spec.register_spec_type MiniSpecC do |_desc, *addl|
+    Bigtest::Spec.register_spec_type MiniSpecC do |_desc, *addl|
       addl.include? :woot
     end
 
-    assert_equal MiniSpecA, Minitest::Spec.spec_type(ExampleA)
-    assert_equal MiniSpecB, Minitest::Spec.spec_type(ExampleB)
-    assert_equal MiniSpecC, Minitest::Spec.spec_type(ExampleB, :woot)
+    assert_equal MiniSpecA, Bigtest::Spec.spec_type(ExampleA)
+    assert_equal MiniSpecB, Bigtest::Spec.spec_type(ExampleB)
+    assert_equal MiniSpecC, Bigtest::Spec.spec_type(ExampleB, :woot)
   ensure
-    Minitest::Spec::TYPES.replace original_types
+    Bigtest::Spec::TYPES.replace original_types
   end
 
   def test_bug_dsl_expectations
@@ -886,7 +886,7 @@ class TestMeta < MetaMetaMetaTestCase
 
   def test_structure_subclasses
     z = nil
-    x = Class.new Minitest::Spec do
+    x = Class.new Bigtest::Spec do
       def xyz; end
     end
     y = Class.new x do
@@ -908,7 +908,7 @@ class TestSpecInTestCase < MetaMetaMetaTestCase
     @assertion_count = 2
   end
 
-  def assert_triggered expected, klass = Minitest::Assertion
+  def assert_triggered expected, klass = Bigtest::Assertion
     @assertion_count += 1
 
     e = assert_raises klass do
@@ -943,7 +943,7 @@ class TestSpecInTestCase < MetaMetaMetaTestCase
   end
 end
 
-class ValueMonadTest < Minitest::Test
+class ValueMonadTest < Bigtest::Test
   attr_accessor :struct
 
   def setup

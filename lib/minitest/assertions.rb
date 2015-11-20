@@ -2,15 +2,15 @@ require "rbconfig"
 require "tempfile"
 require "stringio"
 
-module Minitest
+module Bigtest
   ##
-  # Minitest Assertions.  All assertion methods accept a +msg+ which is
+  # Bigtest Assertions.  All assertion methods accept a +msg+ which is
   # printed if the assertion fails.
   #
   # Protocol: Nearly everything here boils up to +assert+, which
   # expects to be able to increment an instance accessor named
   # +assertions+. This is not provided by Assertions and must be
-  # provided by the thing including Assertions. See Minitest::Runnable
+  # provided by the thing including Assertions. See Bigtest::Runnable
   # for an example.
 
   module Assertions
@@ -28,7 +28,7 @@ module Minitest
       @diff = if (RbConfig::CONFIG["host_os"] =~ /mswin|mingw/ &&
                   system("diff.exe", __FILE__, __FILE__)) then
                 "diff.exe -u"
-              elsif Minitest::Test.maglev? then
+              elsif Bigtest::Test.maglev? then
                 "diff -u"
               elsif system("gdiff", __FILE__, __FILE__)
                 "gdiff -u" # solaris and kin suck
@@ -65,7 +65,7 @@ module Minitest
          expect.size > 30         ||
          butwas.size > 30         ||
          expect == butwas)        &&
-        Minitest::Assertions.diff
+        Bigtest::Assertions.diff
 
       return "Expected: #{mu_pp exp}\n  Actual: #{mu_pp act}" unless
         need_to_diff
@@ -78,7 +78,7 @@ module Minitest
           b.puts butwas
           b.flush
 
-          result = `#{Minitest::Assertions.diff} #{a.path} #{b.path}`
+          result = `#{Bigtest::Assertions.diff} #{a.path} #{b.path}`
           result.sub!(/^\-\-\- .+/, "--- expected")
           result.sub!(/^\+\+\+ .+/, "+++ actual")
 
@@ -126,7 +126,7 @@ module Minitest
       unless test then
         msg ||= "Failed assertion, no message given."
         msg = msg.call if Proc === msg
-        raise Minitest::Assertion, msg
+        raise Bigtest::Assertion, msg
       end
       true
     end
@@ -156,7 +156,7 @@ module Minitest
     #
     # For floats use assert_in_delta.
     #
-    # See also: Minitest::Assertions.diff
+    # See also: Bigtest::Assertions.diff
 
     def assert_equal exp, act, msg = nil
       msg = message(msg, E) { diff exp, act }
@@ -301,7 +301,7 @@ module Minitest
       rescue *exp => e
         pass # count assertion
         return e
-      rescue Minitest::Skip
+      rescue Bigtest::Skip
         # don't count assertion
         raise
       rescue SignalException, SystemExit
@@ -466,7 +466,7 @@ module Minitest
        "Class: <#{e.class}>",
        "Message: <#{e.message.inspect}>",
        "---Backtrace---",
-       "#{Minitest.filter_backtrace(e.backtrace).join("\n")}",
+       "#{Bigtest.filter_backtrace(e.backtrace).join("\n")}",
        "---------------",
       ].join "\n"
     end
@@ -648,7 +648,7 @@ module Minitest
     def skip msg = nil, bt = caller
       msg ||= "Skipped, no message given"
       @skip = true
-      raise Minitest::Skip, msg, bt
+      raise Bigtest::Skip, msg, bt
     end
 
     ##

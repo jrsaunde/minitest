@@ -6,7 +6,7 @@ require_relative "./minitest/parallel.rb"
 ##
 # :include: README.rdoc
 
-module Minitest
+module Bigtest
   VERSION = "5.8.2" # :nodoc:
   ENCS = "".respond_to? :encoding # :nodoc:
 
@@ -40,7 +40,7 @@ module Minitest
   mc.send :attr_accessor, :extensions
 
   ##
-  # Registers Minitest to run at process exit
+  # Registers Bigtest to run at process exit
 
   def self.autorun
     at_exit {
@@ -53,7 +53,7 @@ module Minitest
         exit exit_code || false
       }
 
-      exit_code = Minitest.run ARGV
+      exit_code = Bigtest.run ARGV
     } unless @@installed_at_exit
     @@installed_at_exit = true
   end
@@ -62,7 +62,7 @@ module Minitest
   # A simple hook allowing you to run a block of code after everything
   # is done running. Eg:
   #
-  #   Minitest.after_run { p $debugging_info }
+  #   Bigtest.after_run { p $debugging_info }
 
   def self.after_run &block
     @@after_run << block
@@ -100,14 +100,14 @@ module Minitest
   #
   # The overall structure of a run looks like this:
   #
-  #   Minitest.autorun
-  #     Minitest.run(args)
-  #       Minitest.__run(reporter, options)
+  #   Bigtest.autorun
+  #     Bigtest.run(args)
+  #       Bigtest.__run(reporter, options)
   #         Runnable.runnables.each
   #           runnable.run(reporter, options)
   #             self.runnable_methods.each
   #               self.run_one_method(self, runnable_method, reporter)
-  #                 Minitest.run_one_method(klass, runnable_method)
+  #                 Bigtest.run_one_method(klass, runnable_method)
   #                   klass.new(runnable_method).run
 
   def self.run args = []
@@ -164,7 +164,7 @@ module Minitest
 
     OptionParser.new do |opts|
       opts.banner  = "minitest options:"
-      opts.version = Minitest::VERSION
+      opts.version = Bigtest::VERSION
 
       opts.on "-h", "--help", "Display this help." do
         puts opts
@@ -186,6 +186,7 @@ module Minitest
 
       opts.on "-m", "--mx MX", "Which MX to run tests on." do |mx|
         options[:mx] = mx
+        puts "We are using MX"
       end
 
       unless extensions.empty?
@@ -306,10 +307,10 @@ module Minitest
     # Runs a single method and has the reporter record the result.
     # This was considered internal API but is factored out of run so
     # that subclasses can specialize the running of an individual
-    # test. See Minitest::ParallelTest::ClassMethods for an example.
+    # test. See Bigtest::ParallelTest::ClassMethods for an example.
 
     def self.run_one_method klass, method_name, reporter
-      reporter.record Minitest.run_one_method(klass, method_name)
+      reporter.record Bigtest.run_one_method(klass, method_name)
     end
 
     def self.with_info_handler reporter, &block # :nodoc:
@@ -513,7 +514,7 @@ module Minitest
     end
 
     def start # :nodoc:
-      self.start_time = Minitest.clock_time
+      self.start_time = Bigtest.clock_time
     end
 
     def record result # :nodoc:
@@ -527,7 +528,7 @@ module Minitest
       aggregate = results.group_by { |r| r.failure.class }
       aggregate.default = [] # dumb. group_by should provide this
 
-      self.total_time = Minitest.clock_time - start_time
+      self.total_time = Bigtest.clock_time - start_time
       self.failures   = aggregate[Assertion].size
       self.errors     = aggregate[UnexpectedError].size
       self.skips      = aggregate[Skip].size
@@ -703,7 +704,7 @@ module Minitest
     end
 
     def message # :nodoc:
-      bt = Minitest.filter_backtrace(self.backtrace).join "\n    "
+      bt = Bigtest.filter_backtrace(self.backtrace).join "\n    "
       "#{self.exception.class}: #{self.exception.message}\n    #{bt}"
     end
 

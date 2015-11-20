@@ -3,14 +3,14 @@
 class Hoe
 end
 
-module Hoe::Minitest
+module Hoe::Bigtest
   def initialize_minitest
     dir = "../../minitest/dev/lib"
     Hoe.add_include_dirs dir if File.directory? dir
 
     gem "minitest"
     require "minitest"
-    version = Minitest::VERSION.split(/\./).first(2).join(".")
+    version = Bigtest::VERSION.split(/\./).first(2).join(".")
 
     dependency "minitest", "~> #{version}", :development unless
       self.name == "minitest" or ENV["MT_NO_ISOLATE"]

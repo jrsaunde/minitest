@@ -1,15 +1,15 @@
-require_relative "../minitest.rb" unless defined? Minitest::Runnable
+require_relative "../minitest.rb" unless defined? Bigtest::Runnable
 
-module Minitest
+module Bigtest
   ##
   # Subclass Test to create your own tests. Typically you'll want a
   # Test subclass per implementation class.
   #
-  # See Minitest::Assertions
+  # See Bigtest::Assertions
 
   class Test < Runnable
     require_relative "./assertions.rb"
-    include Minitest::Assertions
+    include Bigtest::Assertions
 
     PASSTHROUGH_EXCEPTIONS = [NoMemoryError, SignalException, # :nodoc:
                               Interrupt, SystemExit]
@@ -49,8 +49,8 @@ module Minitest
     # and your tests are awesome.
 
     def self.parallelize_me!
-      include Minitest::Parallel::Test
-      extend Minitest::Parallel::Test::ClassMethods
+      include Bigtest::Parallel::Test
+      extend Bigtest::Parallel::Test::ClassMethods
     end
 
     ##
@@ -133,7 +133,7 @@ module Minitest
       #
       # As a simplistic example:
       #
-      #   module MyMinitestPlugin
+      #   module MyBigtestPlugin
       #     def before_setup
       #       super
       #       # ... stuff to do before setup is run
@@ -156,7 +156,7 @@ module Minitest
       #   end
       #
       #   class MiniTest::Test
-      #     include MyMinitestPlugin
+      #     include MyBigtestPlugin
       #   end
 
       def before_setup; end
@@ -251,11 +251,11 @@ module Minitest
     end
 
     def time_it # :nodoc:
-      t0 = Minitest.clock_time
+      t0 = Bigtest.clock_time
 
       yield
     ensure
-      self.time = Minitest.clock_time - t0
+      self.time = Bigtest.clock_time - t0
     end
 
     def to_s # :nodoc:
@@ -267,10 +267,10 @@ module Minitest
     end
 
     def with_info_handler &block # :nodoc:
-      t0 = Minitest.clock_time
+      t0 = Bigtest.clock_time
 
       handler = lambda do
-        warn "\nCurrent: %s#%s %.2fs" % [self.class, self.name, Minitest.clock_time - t0]
+        warn "\nCurrent: %s#%s %.2fs" % [self.class, self.name, Bigtest.clock_time - t0]
       end
 
       self.class.on_signal "INFO", handler, &block
@@ -282,5 +282,4 @@ module Minitest
   end # Test
 end
 
-require_relative "./unit.rb" unless defined?(MiniTest)
-#require "minitest/unit" unless defined?(MiniTest) # compatibility layer only
+require_relative "./unit.rb" unless defined?(MiniTest) # compatibility later only

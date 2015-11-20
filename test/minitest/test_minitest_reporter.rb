@@ -1,14 +1,14 @@
-require "minitest/autorun"
-require "minitest/metametameta"
+require_relative "./minitest/autorun"
+require_relative "./minitest/metametameta"
 
-class TestMinitestReporter < MetaMetaMetaTestCase
+class TestBigtestReporter < MetaMetaMetaTestCase
 
   attr_accessor :r, :io
 
   def new_composite_reporter
-    reporter = Minitest::CompositeReporter.new
-    reporter << Minitest::SummaryReporter.new(self.io)
-    reporter << Minitest::ProgressReporter.new(self.io)
+    reporter = Bigtest::CompositeReporter.new
+    reporter << Bigtest::SummaryReporter.new(self.io)
+    reporter << Bigtest::ProgressReporter.new(self.io)
 
     def reporter.first
       reporters.first
@@ -36,8 +36,8 @@ class TestMinitestReporter < MetaMetaMetaTestCase
 
   def error_test
     unless defined? @et then
-      @et = Minitest::Test.new(:woot)
-      @et.failures << Minitest::UnexpectedError.new(begin
+      @et = Bigtest::Test.new(:woot)
+      @et.failures << Bigtest::UnexpectedError.new(begin
                                                       raise "no"
                                                     rescue => e
                                                       e
@@ -48,10 +48,10 @@ class TestMinitestReporter < MetaMetaMetaTestCase
 
   def fail_test
     unless defined? @ft then
-      @ft = Minitest::Test.new(:woot)
+      @ft = Bigtest::Test.new(:woot)
       @ft.failures <<   begin
-                          raise Minitest::Assertion, "boo"
-                        rescue Minitest::Assertion => e
+                          raise Bigtest::Assertion, "boo"
+                        rescue Bigtest::Assertion => e
                           e
                         end
     end
@@ -59,15 +59,15 @@ class TestMinitestReporter < MetaMetaMetaTestCase
   end
 
   def passing_test
-    @pt ||= Minitest::Test.new(:woot)
+    @pt ||= Bigtest::Test.new(:woot)
   end
 
   def skip_test
     unless defined? @st then
-      @st = Minitest::Test.new(:woot)
+      @st = Bigtest::Test.new(:woot)
       @st.failures << begin
-                        raise Minitest::Skip
-                      rescue Minitest::Assertion => e
+                        raise Bigtest::Skip
+                      rescue Bigtest::Assertion => e
                         e
                       end
     end
@@ -219,7 +219,7 @@ class TestMinitestReporter < MetaMetaMetaTestCase
       Finished in 0.00
 
         1) Failure:
-      Minitest::Test#woot [FILE:LINE]:
+      Bigtest::Test#woot [FILE:LINE]:
       boo
 
       1 runs, 0 assertions, 1 failures, 0 errors, 0 skips
@@ -243,7 +243,7 @@ class TestMinitestReporter < MetaMetaMetaTestCase
       Finished in 0.00
 
         1) Error:
-      Minitest::Test#woot:
+      Bigtest::Test#woot:
       RuntimeError: no
           FILE:LINE:in `error_test'
           FILE:LINE:in `test_report_error'

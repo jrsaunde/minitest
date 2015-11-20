@@ -1,4 +1,4 @@
-module Minitest
+module Bigtest
   module Parallel
 
     ##
@@ -29,7 +29,7 @@ module Minitest
             Thread.current.abort_on_exception = true
             while (job = queue.pop)
               klass, method, reporter = job
-              result = Minitest.run_one_method klass, method
+              result = Bigtest.run_one_method klass, method
               reporter.synchronize { reporter.record result }
             end
           end
@@ -53,11 +53,11 @@ module Minitest
     end
 
     module Test
-      def _synchronize; Minitest::Test.io_lock.synchronize { yield }; end # :nodoc:
+      def _synchronize; Bigtest::Test.io_lock.synchronize { yield }; end # :nodoc:
 
       module ClassMethods # :nodoc:
         def run_one_method klass, method_name, reporter
-          Minitest.parallel_executor << [klass, method_name, reporter]
+          Bigtest.parallel_executor << [klass, method_name, reporter]
         end
 
         def test_order

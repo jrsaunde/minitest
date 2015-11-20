@@ -17,8 +17,8 @@ end
 desc "Find missing expectations"
 task :specs do
   $:.unshift "lib"
-  require "minitest/unit"
-  require "minitest/spec"
+  require_relative "./minitest/unit.rb"
+  require_relative "./minitest/spec.rb"
 
   pos_prefix, neg_prefix = "must", "wont"
   skip_re = /^(must|wont)$|wont_(throw)|must_(block|not?_|nothing|raise$)/x
@@ -34,8 +34,8 @@ task :specs do
     /must_raises/                          => "must_raise",
   }
 
-  expectations = Minitest::Expectations.public_instance_methods.map(&:to_s)
-  assertions   = Minitest::Assertions.public_instance_methods.map(&:to_s)
+  expectations = Bigtest::Expectations.public_instance_methods.map(&:to_s)
+  assertions   = Bigtest::Assertions.public_instance_methods.map(&:to_s)
 
   assertions.sort.each do |assertion|
     expectation = case assertion
@@ -59,7 +59,7 @@ task :specs do
     puts
     puts "##"
     puts "# :method: #{expectation}"
-    puts "# See Minitest::Assertions##{assertion}"
+    puts "# See Bigtest::Assertions##{assertion}"
     puts
     puts "infect_an_assertion #{args.join ", "}"
   end

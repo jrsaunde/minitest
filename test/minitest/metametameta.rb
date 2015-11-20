@@ -1,24 +1,24 @@
 require "tempfile"
 require "stringio"
-require "minitest/autorun"
+require_relative "./minitest/autorun"
 
-class Minitest::Test
+class Bigtest::Test
   def clean s
     s.gsub(/^ {6}/, "")
   end
 end
 
-class MetaMetaMetaTestCase < Minitest::Test
+class MetaMetaMetaTestCase < Bigtest::Test
   attr_accessor :reporter, :output, :tu
 
   def run_tu_with_fresh_reporter flags = %w[--seed 42]
-    options = Minitest.process_args flags
+    options = Bigtest.process_args flags
 
     @output = StringIO.new("")
 
-    self.reporter = Minitest::CompositeReporter.new
-    reporter << Minitest::SummaryReporter.new(@output, options)
-    reporter << Minitest::ProgressReporter.new(@output, options)
+    self.reporter = Bigtest::CompositeReporter.new
+    reporter << Bigtest::SummaryReporter.new(@output, options)
+    reporter << Bigtest::ProgressReporter.new(@output, options)
 
     reporter.start
 
@@ -26,7 +26,7 @@ class MetaMetaMetaTestCase < Minitest::Test
 
     @tus ||= [@tu]
     @tus.each do |tu|
-      Minitest::Runnable.runnables.delete tu
+      Bigtest::Runnable.runnables.delete tu
 
       tu.run reporter, options
     end
@@ -84,7 +84,7 @@ class MetaMetaMetaTestCase < Minitest::Test
   def setup
     super
     srand 42
-    Minitest::Test.reset
+    Bigtest::Test.reset
     @tu = nil
   end
 end

@@ -1,23 +1,23 @@
-require "minitest/autorun"
-require "minitest/benchmark"
+require_relative "./minitest/autorun"
+require_relative "./minitest/benchmark"
 
 ##
 # Used to verify data:
 # http://www.wolframalpha.com/examples/RegressionAnalysis.html
 
-class TestMinitestBenchmark < Minitest::Test
+class TestBigtestBenchmark < Bigtest::Test
   def test_cls_bench_exp
-    assert_equal [2, 4, 8, 16, 32], Minitest::Benchmark.bench_exp(2, 32, 2)
+    assert_equal [2, 4, 8, 16, 32], Bigtest::Benchmark.bench_exp(2, 32, 2)
   end
 
   def test_cls_bench_linear
-    assert_equal [2, 4, 6, 8, 10], Minitest::Benchmark.bench_linear(2, 10, 2)
+    assert_equal [2, 4, 6, 8, 10], Bigtest::Benchmark.bench_linear(2, 10, 2)
   end
 
   def test_cls_runnable_methods
-    assert_equal [], Minitest::Benchmark.runnable_methods
+    assert_equal [], Bigtest::Benchmark.runnable_methods
 
-    c = Class.new(Minitest::Benchmark) do
+    c = Class.new(Bigtest::Benchmark) do
       def bench_blah
       end
     end
@@ -26,7 +26,7 @@ class TestMinitestBenchmark < Minitest::Test
   end
 
   def test_cls_bench_range
-    assert_equal [1, 10, 100, 1_000, 10_000], Minitest::Benchmark.bench_range
+    assert_equal [1, 10, 100, 1_000, 10_000], Bigtest::Benchmark.bench_range
   end
 
   def test_fit_exponential_clean
@@ -119,7 +119,7 @@ class TestMinitestBenchmark < Minitest::Test
   end
 
   def assert_fit msg, x, y, fit, exp_a, exp_b
-    bench = Minitest::Benchmark.new :blah
+    bench = Bigtest::Benchmark.new :blah
 
     a, b, rr = bench.send "fit_#{msg}", x, y
 

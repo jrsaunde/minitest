@@ -1,10 +1,10 @@
-require "minitest/autorun"
+require_relative "./minitest/autorun"
 
-class TestMinitestMock < Minitest::Test
+class TestBigtestMock < Bigtest::Test
   parallelize_me!
 
   def setup
-    @mock = Minitest::Mock.new.expect(:foo, nil)
+    @mock = Bigtest::Mock.new.expect(:foo, nil)
     @mock.expect(:meaning_of_life, 42)
   end
 
@@ -55,8 +55,8 @@ class TestMinitestMock < Minitest::Test
   end
 
   def test_return_mock_does_not_raise
-    retval = Minitest::Mock.new
-    mock = Minitest::Mock.new
+    retval = Bigtest::Mock.new
+    mock = Bigtest::Mock.new
     mock.expect(:foo, retval)
     mock.foo
 
@@ -66,8 +66,8 @@ class TestMinitestMock < Minitest::Test
   def test_mock_args_does_not_raise
     skip "non-opaque use of ==" if maglev?
 
-    arg = Minitest::Mock.new
-    mock = Minitest::Mock.new
+    arg = Bigtest::Mock.new
+    mock = Bigtest::Mock.new
     mock.expect(:foo, nil, [arg])
     mock.foo(arg)
 
@@ -75,7 +75,7 @@ class TestMinitestMock < Minitest::Test
   end
 
   def test_set_expectation_on_special_methods
-    mock = Minitest::Mock.new
+    mock = Bigtest::Mock.new
 
     mock.expect :object_id, "received object_id"
     assert_equal "received object_id", mock.object_id
@@ -156,8 +156,8 @@ class TestMinitestMock < Minitest::Test
   end
 
   def test_assign_per_mock_return_values
-    a = Minitest::Mock.new
-    b = Minitest::Mock.new
+    a = Bigtest::Mock.new
+    b = Bigtest::Mock.new
 
     a.expect(:foo, :a)
     b.expect(:foo, :b)
@@ -167,10 +167,10 @@ class TestMinitestMock < Minitest::Test
   end
 
   def test_do_not_create_stub_method_on_new_mocks
-    a = Minitest::Mock.new
+    a = Bigtest::Mock.new
     a.expect(:foo, :a)
 
-    assert !Minitest::Mock.new.respond_to?(:foo)
+    assert !Bigtest::Mock.new.respond_to?(:foo)
   end
 
   def test_mock_is_a_blank_slate
@@ -182,7 +182,7 @@ class TestMinitestMock < Minitest::Test
   end
 
   def test_verify_allows_called_args_to_be_loosely_specified
-    mock = Minitest::Mock.new
+    mock = Bigtest::Mock.new
     mock.expect :loose_expectation, true, [Integer]
     mock.loose_expectation 1
 
@@ -190,7 +190,7 @@ class TestMinitestMock < Minitest::Test
   end
 
   def test_verify_raises_with_strict_args
-    mock = Minitest::Mock.new
+    mock = Bigtest::Mock.new
     mock.expect :strict_expectation, true, [2]
 
     e = assert_raises MockExpectationError do
@@ -202,7 +202,7 @@ class TestMinitestMock < Minitest::Test
   end
 
   def test_method_missing_empty
-    mock = Minitest::Mock.new
+    mock = Bigtest::Mock.new
 
     mock.expect :a, nil
 
@@ -216,7 +216,7 @@ class TestMinitestMock < Minitest::Test
   end
 
   def test_same_method_expects_are_verified_when_all_called
-    mock = Minitest::Mock.new
+    mock = Bigtest::Mock.new
     mock.expect :foo, nil, [:bar]
     mock.expect :foo, nil, [:baz]
 
@@ -227,7 +227,7 @@ class TestMinitestMock < Minitest::Test
   end
 
   def test_same_method_expects_blow_up_when_not_all_called
-    mock = Minitest::Mock.new
+    mock = Bigtest::Mock.new
     mock.expect :foo, nil, [:bar]
     mock.expect :foo, nil, [:baz]
 
@@ -241,7 +241,7 @@ class TestMinitestMock < Minitest::Test
   end
 
   def test_verify_passes_when_mock_block_returns_true
-    mock = Minitest::Mock.new
+    mock = Bigtest::Mock.new
     mock.expect :foo, nil do
       true
     end
@@ -253,7 +253,7 @@ class TestMinitestMock < Minitest::Test
 
   def test_mock_block_is_passed_function_params
     arg1, arg2, arg3 = :bar, [1, 2, 3], { :a => "a" }
-    mock = Minitest::Mock.new
+    mock = Bigtest::Mock.new
     mock.expect :foo, nil do |a1, a2, a3|
       a1 == arg1 && a2 == arg2 && a3 == arg3
     end
@@ -264,7 +264,7 @@ class TestMinitestMock < Minitest::Test
   end
 
   def test_mock_block_is_passed_function_block
-    mock = Minitest::Mock.new
+    mock = Bigtest::Mock.new
     block = proc { "bar" }
     mock.expect :foo, nil do |arg, &blk|
       arg == "foo" &&
@@ -275,7 +275,7 @@ class TestMinitestMock < Minitest::Test
   end
 
   def test_verify_fails_when_mock_block_returns_false
-    mock = Minitest::Mock.new
+    mock = Bigtest::Mock.new
     mock.expect :foo, nil do
       false
     end
@@ -287,7 +287,7 @@ class TestMinitestMock < Minitest::Test
   end
 
   def test_mock_block_throws_if_args_passed
-    mock = Minitest::Mock.new
+    mock = Bigtest::Mock.new
 
     e = assert_raises(ArgumentError) do
       mock.expect :foo, nil, [:a, :b, :c] do
@@ -301,7 +301,7 @@ class TestMinitestMock < Minitest::Test
   end
 
   def test_mock_returns_retval_when_called_with_block
-    mock = Minitest::Mock.new
+    mock = Bigtest::Mock.new
     mock.expect(:foo, 32) do
       true
     end
@@ -320,7 +320,7 @@ class TestMinitestMock < Minitest::Test
   end
 
   def test_mock_called_via_send
-    mock = Minitest::Mock.new
+    mock = Bigtest::Mock.new
     mock.expect(:foo, true)
 
     mock.send :foo
@@ -328,7 +328,7 @@ class TestMinitestMock < Minitest::Test
   end
 
   def test_mock_called_via___send__
-    mock = Minitest::Mock.new
+    mock = Bigtest::Mock.new
     mock.expect(:foo, true)
 
     mock.__send__ :foo
@@ -336,7 +336,7 @@ class TestMinitestMock < Minitest::Test
   end
 
   def test_mock_called_via_send_with_args
-    mock = Minitest::Mock.new
+    mock = Bigtest::Mock.new
     mock.expect(:foo, true, [1, 2, 3])
 
     mock.send(:foo, 1, 2, 3)
@@ -347,14 +347,14 @@ end
 
 require "minitest/metametameta"
 
-class TestMinitestStub < Minitest::Test
+class TestBigtestStub < Bigtest::Test
   parallelize_me!
 
   def setup
     super
-    Minitest::Test.reset
+    Bigtest::Test.reset
 
-    @tc = Minitest::Test.new "fake tc"
+    @tc = Bigtest::Test.new "fake tc"
     @assertion_count = 1
   end
 
@@ -481,7 +481,7 @@ class TestMinitestStub < Minitest::Test
   end
 
   def test_mock_with_yield
-    mock = Minitest::Mock.new
+    mock = Bigtest::Mock.new
     mock.expect(:write, true) do
       true
     end
