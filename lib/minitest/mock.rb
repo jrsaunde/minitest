@@ -1,6 +1,6 @@
 class MockExpectationError < StandardError; end # :nodoc:
 
-module Minitest # :nodoc:
+module Bigtest # :nodoc:
 
   ##
   # A simple and clean mock object framework.
@@ -173,7 +173,7 @@ module Minitest # :nodoc:
 end
 
 ##
-# Object extensions for Minitest::Mock.
+# Object extensions for Bigtest::Mock.
 
 class Object
 

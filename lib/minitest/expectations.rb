@@ -16,10 +16,10 @@
 #       end
 #     end
 
-module Minitest::Expectations
+module Bigtest::Expectations
 
   ##
-  # See Minitest::Assertions#assert_empty.
+  # See Bigtest::Assertions#assert_empty.
   #
   #    collection.must_be_empty
   #
@@ -28,7 +28,7 @@ module Minitest::Expectations
   infect_an_assertion :assert_empty, :must_be_empty, :unary
 
   ##
-  # See Minitest::Assertions#assert_equal
+  # See Bigtest::Assertions#assert_equal
   #
   #    a.must_equal b
   #
@@ -37,7 +37,7 @@ module Minitest::Expectations
   infect_an_assertion :assert_equal, :must_equal
 
   ##
-  # See Minitest::Assertions#assert_in_delta
+  # See Bigtest::Assertions#assert_in_delta
   #
   #    n.must_be_close_to m [, delta]
   #
@@ -48,7 +48,7 @@ module Minitest::Expectations
   alias :must_be_within_delta :must_be_close_to # :nodoc:
 
   ##
-  # See Minitest::Assertions#assert_in_epsilon
+  # See Bigtest::Assertions#assert_in_epsilon
   #
   #    n.must_be_within_epsilon m [, epsilon]
   #
@@ -57,7 +57,7 @@ module Minitest::Expectations
   infect_an_assertion :assert_in_epsilon, :must_be_within_epsilon
 
   ##
-  # See Minitest::Assertions#assert_includes
+  # See Bigtest::Assertions#assert_includes
   #
   #    collection.must_include obj
   #
@@ -66,7 +66,7 @@ module Minitest::Expectations
   infect_an_assertion :assert_includes, :must_include, :reverse
 
   ##
-  # See Minitest::Assertions#assert_instance_of
+  # See Bigtest::Assertions#assert_instance_of
   #
   #    obj.must_be_instance_of klass
   #
@@ -75,7 +75,7 @@ module Minitest::Expectations
   infect_an_assertion :assert_instance_of, :must_be_instance_of
 
   ##
-  # See Minitest::Assertions#assert_kind_of
+  # See Bigtest::Assertions#assert_kind_of
   #
   #    obj.must_be_kind_of mod
   #
@@ -84,7 +84,7 @@ module Minitest::Expectations
   infect_an_assertion :assert_kind_of, :must_be_kind_of
 
   ##
-  # See Minitest::Assertions#assert_match
+  # See Bigtest::Assertions#assert_match
   #
   #    a.must_match b
   #
@@ -93,7 +93,7 @@ module Minitest::Expectations
   infect_an_assertion :assert_match, :must_match
 
   ##
-  # See Minitest::Assertions#assert_nil
+  # See Bigtest::Assertions#assert_nil
   #
   #    obj.must_be_nil
   #
@@ -102,7 +102,7 @@ module Minitest::Expectations
   infect_an_assertion :assert_nil, :must_be_nil, :unary
 
   ##
-  # See Minitest::Assertions#assert_operator
+  # See Bigtest::Assertions#assert_operator
   #
   #    n.must_be :<=, 42
   #
@@ -115,7 +115,7 @@ module Minitest::Expectations
   infect_an_assertion :assert_operator, :must_be, :reverse
 
   ##
-  # See Minitest::Assertions#assert_output
+  # See Bigtest::Assertions#assert_output
   #
   #    proc { ... }.must_output out_or_nil [, err]
   #
@@ -124,7 +124,7 @@ module Minitest::Expectations
   infect_an_assertion :assert_output, :must_output, :block
 
   ##
-  # See Minitest::Assertions#assert_raises
+  # See Bigtest::Assertions#assert_raises
   #
   #    proc { ... }.must_raise exception
   #
@@ -133,7 +133,7 @@ module Minitest::Expectations
   infect_an_assertion :assert_raises, :must_raise, :block
 
   ##
-  # See Minitest::Assertions#assert_respond_to
+  # See Bigtest::Assertions#assert_respond_to
   #
   #    obj.must_respond_to msg
   #
@@ -142,7 +142,7 @@ module Minitest::Expectations
   infect_an_assertion :assert_respond_to, :must_respond_to, :reverse
 
   ##
-  # See Minitest::Assertions#assert_same
+  # See Bigtest::Assertions#assert_same
   #
   #    a.must_be_same_as b
   #
@@ -151,7 +151,7 @@ module Minitest::Expectations
   infect_an_assertion :assert_same, :must_be_same_as
 
   ##
-  # See Minitest::Assertions#assert_silent
+  # See Bigtest::Assertions#assert_silent
   #
   #    proc { ... }.must_be_silent
   #
@@ -160,7 +160,7 @@ module Minitest::Expectations
   infect_an_assertion :assert_silent, :must_be_silent, :block
 
   ##
-  # See Minitest::Assertions#assert_throws
+  # See Bigtest::Assertions#assert_throws
   #
   #    proc { ... }.must_throw sym
   #
@@ -169,7 +169,7 @@ module Minitest::Expectations
   infect_an_assertion :assert_throws, :must_throw, :block
 
   ##
-  # See Minitest::Assertions#refute_empty
+  # See Bigtest::Assertions#refute_empty
   #
   #    collection.wont_be_empty
   #
@@ -178,7 +178,7 @@ module Minitest::Expectations
   infect_an_assertion :refute_empty, :wont_be_empty, :unary
 
   ##
-  # See Minitest::Assertions#refute_equal
+  # See Bigtest::Assertions#refute_equal
   #
   #    a.wont_equal b
   #
@@ -187,7 +187,7 @@ module Minitest::Expectations
   infect_an_assertion :refute_equal, :wont_equal
 
   ##
-  # See Minitest::Assertions#refute_in_delta
+  # See Bigtest::Assertions#refute_in_delta
   #
   #    n.wont_be_close_to m [, delta]
   #
@@ -198,7 +198,7 @@ module Minitest::Expectations
   alias :wont_be_within_delta :wont_be_close_to # :nodoc:
 
   ##
-  # See Minitest::Assertions#refute_in_epsilon
+  # See Bigtest::Assertions#refute_in_epsilon
   #
   #    n.wont_be_within_epsilon m [, epsilon]
   #
@@ -207,7 +207,7 @@ module Minitest::Expectations
   infect_an_assertion :refute_in_epsilon, :wont_be_within_epsilon
 
   ##
-  # See Minitest::Assertions#refute_includes
+  # See Bigtest::Assertions#refute_includes
   #
   #    collection.wont_include obj
   #
@@ -216,7 +216,7 @@ module Minitest::Expectations
   infect_an_assertion :refute_includes, :wont_include, :reverse
 
   ##
-  # See Minitest::Assertions#refute_instance_of
+  # See Bigtest::Assertions#refute_instance_of
   #
   #    obj.wont_be_instance_of klass
   #
@@ -225,7 +225,7 @@ module Minitest::Expectations
   infect_an_assertion :refute_instance_of, :wont_be_instance_of
 
   ##
-  # See Minitest::Assertions#refute_kind_of
+  # See Bigtest::Assertions#refute_kind_of
   #
   #    obj.wont_be_kind_of mod
   #
@@ -234,7 +234,7 @@ module Minitest::Expectations
   infect_an_assertion :refute_kind_of, :wont_be_kind_of
 
   ##
-  # See Minitest::Assertions#refute_match
+  # See Bigtest::Assertions#refute_match
   #
   #    a.wont_match b
   #
@@ -243,7 +243,7 @@ module Minitest::Expectations
   infect_an_assertion :refute_match, :wont_match
 
   ##
-  # See Minitest::Assertions#refute_nil
+  # See Bigtest::Assertions#refute_nil
   #
   #    obj.wont_be_nil
   #
@@ -252,7 +252,7 @@ module Minitest::Expectations
   infect_an_assertion :refute_nil, :wont_be_nil, :unary
 
   ##
-  # See Minitest::Assertions#refute_operator
+  # See Bigtest::Assertions#refute_operator
   #
   #    n.wont_be :<=, 42
   #
@@ -265,7 +265,7 @@ module Minitest::Expectations
   infect_an_assertion :refute_operator, :wont_be, :reverse
 
   ##
-  # See Minitest::Assertions#refute_respond_to
+  # See Bigtest::Assertions#refute_respond_to
   #
   #    obj.wont_respond_to msg
   #
@@ -274,7 +274,7 @@ module Minitest::Expectations
   infect_an_assertion :refute_respond_to, :wont_respond_to, :reverse
 
   ##
-  # See Minitest::Assertions#refute_same
+  # See Bigtest::Assertions#refute_same
   #
   #    a.wont_be_same_as b
   #

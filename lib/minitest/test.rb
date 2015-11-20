@@ -155,7 +155,7 @@ module Bigtest
       #     end
       #   end
       #
-      #   class MiniTest::Test
+      #   class BigTest::Test
       #     include MyBigtestPlugin
       #   end
 
@@ -282,4 +282,4 @@ module Bigtest
   end # Test
 end
 
-require_relative "./unit.rb" unless defined?(MiniTest) # compatibility later only
+require_relative "./unit.rb" unless defined?(BigTest) # compatibility later only

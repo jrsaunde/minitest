@@ -799,4 +799,4 @@ module Bigtest
   end
 end
 
-require "minitest/test"
+require_relative "./minitest/test.rb"

@@ -1,6 +1,6 @@
 require_relative "../minitest.rb"
 
-module Minitest
+module Bigtest
   def self.plugin_pride_options opts, _options # :nodoc:
     opts.on "-p", "--pride", "Pride. Show your testing pride!" do
       PrideIO.pride!
@@ -12,7 +12,7 @@ module Minitest
       klass = ENV["TERM"] =~ /^xterm|-256color$/ ? PrideLOL : PrideIO
       io    = klass.new options[:io]
 
-      self.reporter.reporters.grep(Minitest::Reporter).each do |rep|
+      self.reporter.reporters.grep(Bigtest::Reporter).each do |rep|
         rep.io = io if rep.io.tty?
       end
     end

@@ -1,12 +1,12 @@
 require_relative "./unit.rb"
 require_relative "./spec.rb"
 
-module Minitest
+module Bigtest
   ##
   # Subclass Benchmark to create your own benchmark runs. Methods
   # starting with "bench_" get executed on a per-class.
   #
-  # See Minitest::Assertions
+  # See Bigtest::Assertions
 
   class Benchmark < Test
     def self.io # :nodoc:
@@ -90,9 +90,9 @@ module Minitest
 
       range.each do |x|
         GC.start
-        t0 = Minitest.clock_time
+        t0 = Bigtest.clock_time
         instance_exec(x, &work)
-        t = Minitest.clock_time - t0
+        t = Bigtest.clock_time - t0
 
         io.print "\t%9.6f" % t
         times << t
@@ -341,12 +341,12 @@ module Minitest
   end
 end
 
-module Minitest
+module Bigtest
   ##
-  # The spec version of Minitest::Benchmark.
+  # The spec version of Bigtest::Benchmark.
 
   class BenchSpec < Benchmark
-    extend Minitest::Spec::DSL
+    extend Bigtest::Spec::DSL
 
     ##
     # This is used to define a new benchmark method. You usually don't
@@ -366,7 +366,7 @@ module Minitest
     #     bench_exp(2, 16, 2)
     #   end
     #
-    # See Minitest::Benchmark#bench_range for more details.
+    # See Bigtest::Benchmark#bench_range for more details.
 
     def self.bench_range &block
       return super unless block
@@ -421,5 +421,5 @@ module Minitest
     end
   end
 
-  Minitest::Spec.register_spec_type(/Bench(mark)?$/, Minitest::BenchSpec)
+  Bigtest::Spec.register_spec_type(/Bench(mark)?$/, Bigtest::BenchSpec)
 end

@@ -7,11 +7,11 @@ class Module # :nodoc:
     # warn "%-22p -> %p %p" % [meth, new_name, dont_flip]
     self.class_eval <<-EOM, __FILE__, __LINE__ + 1
       def #{new_name} *args
-        Minitest::Expectation.new(self, Minitest::Spec.current).#{new_name}(*args)
+        Bigtest::Expectation.new(self, Bigtest::Spec.current).#{new_name}(*args)
       end
     EOM
 
-    Minitest::Expectation.class_eval <<-EOM, __FILE__, __LINE__ + 1
+    Bigtest::Expectation.class_eval <<-EOM, __FILE__, __LINE__ + 1
       def #{new_name} *args
         case
         when #{!!dont_flip} then
@@ -26,7 +26,7 @@ class Module # :nodoc:
   end
 end
 
-Minitest::Expectation = Struct.new :target, :ctx # :nodoc:
+Bigtest::Expectation = Struct.new :target, :ctx # :nodoc:
 
 ##
 # Kernel extensions for minitest
@@ -35,11 +35,11 @@ module Kernel
   ##
   # Describe a series of expectations for a given target +desc+.
   #
-  # Defines a test class subclassing from either Minitest::Spec or
+  # Defines a test class subclassing from either Bigtest::Spec or
   # from the surrounding describe's class. The surrounding class may
-  # subclass Minitest::Spec manually in order to easily share code:
+  # subclass Bigtest::Spec manually in order to easily share code:
   #
-  #     class MySpec < Minitest::Spec
+  #     class MySpec < Bigtest::Spec
   #       # ... shared code ...
   #     end
   #
@@ -65,15 +65,15 @@ module Kernel
   # but do note that several items there are debatable or specific to
   # rspec.
   #
-  # For more information about expectations, see Minitest::Expectations.
+  # For more information about expectations, see Bigtest::Expectations.
 
   def describe desc, *additional_desc, &block # :doc:
-    stack = Minitest::Spec.describe_stack
+    stack = Bigtest::Spec.describe_stack
     name  = [stack.last, desc, *additional_desc].compact.join("::")
-    sclas = stack.last || if Class === self && kind_of?(Minitest::Spec::DSL) then
+    sclas = stack.last || if Class === self && kind_of?(Bigtest::Spec::DSL) then
                             self
                           else
-                            Minitest::Spec.spec_type desc, *additional_desc
+                            Bigtest::Spec.spec_type desc, *additional_desc
                           end
 
     cls = sclas.create name, desc
@@ -87,11 +87,11 @@ module Kernel
 end
 
 ##
-# Minitest::Spec -- The faster, better, less-magical spec framework!
+# Bigtest::Spec -- The faster, better, less-magical spec framework!
 #
-# For a list of expectations, see Minitest::Expectations.
+# For a list of expectations, see Bigtest::Expectations.
 
-class Minitest::Spec < Minitest::Test
+class Bigtest::Spec < Bigtest::Test
 
   def self.current # :nodoc:
     Thread.current[:current_spec]
@@ -103,7 +103,7 @@ class Minitest::Spec < Minitest::Test
   end
 
   ##
-  # Oh look! A Minitest::Spec::DSL module! Eat your heart out DHH.
+  # Oh look! A Bigtest::Spec::DSL module! Eat your heart out DHH.
 
   module DSL
     ##
@@ -113,7 +113,7 @@ class Minitest::Spec < Minitest::Test
     #
     # See: register_spec_type and spec_type
 
-    TYPES = [[//, Minitest::Spec]]
+    TYPES = [[//, Bigtest::Spec]]
 
     ##
     # Register a new type of spec that matches the spec's description.
@@ -123,11 +123,11 @@ class Minitest::Spec < Minitest::Test
     #
     # Eg:
     #
-    #     register_spec_type(/Controller$/, Minitest::Spec::Rails)
+    #     register_spec_type(/Controller$/, Bigtest::Spec::Rails)
     #
     # or:
     #
-    #     register_spec_type(Minitest::Spec::RailsModel) do |desc|
+    #     register_spec_type(Bigtest::Spec::RailsModel) do |desc|
     #       desc.superclass == ActiveRecord::Base
     #     end
 
@@ -143,7 +143,7 @@ class Minitest::Spec < Minitest::Test
     ##
     # Figure out the spec class to use based on a spec's description. Eg:
     #
-    #     spec_type("BlahController") # => Minitest::Spec::Rails
+    #     spec_type("BlahController") # => Bigtest::Spec::Rails
 
     def spec_type desc, *additional
       TYPES.find { |matcher, _klass|
@@ -174,7 +174,7 @@ class Minitest::Spec < Minitest::Test
     #
     # NOTE: +type+ is ignored and is only there to make porting easier.
     #
-    # Equivalent to Minitest::Test#setup.
+    # Equivalent to Bigtest::Test#setup.
 
     def before _type = nil, &block
       define_method :setup do
@@ -188,7 +188,7 @@ class Minitest::Spec < Minitest::Test
     #
     # NOTE: +type+ is ignored and is only there to make porting easier.
     #
-    # Equivalent to Minitest::Test#teardown.
+    # Equivalent to Bigtest::Test#teardown.
 
     def after _type = nil, &block
       define_method :teardown do
@@ -235,10 +235,10 @@ class Minitest::Spec < Minitest::Test
     def let name, &block
       name = name.to_s
       pre, post = "let '#{name}' cannot ", ". Please use another name."
-      methods = Minitest::Spec.instance_methods.map(&:to_s) - %w[subject]
+      methods = Bigtest::Spec.instance_methods.map(&:to_s) - %w[subject]
       raise ArgumentError, "#{pre}begin with 'test'#{post}" if
         name =~ /\Atest/
-      raise ArgumentError, "#{pre}override a method in Minitest::Spec#{post}" if
+      raise ArgumentError, "#{pre}override a method in Bigtest::Spec#{post}" if
         methods.include? name
 
       define_method name do
@@ -301,7 +301,7 @@ class Minitest::Spec < Minitest::Test
       # removed.
 
       def _ value = nil, &block
-        Minitest::Expectation.new block || value, self
+        Bigtest::Expectation.new block || value, self
       end
 
       alias value _
@@ -326,5 +326,5 @@ end
 require_relative "./expectations.rb"
 
 class Object # :nodoc:
-  include Minitest::Expectations unless ENV["MT_NO_EXPECTATIONS"]
+  include Bigtest::Expectations unless ENV["MT_NO_EXPECTATIONS"]
 end

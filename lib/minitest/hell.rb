@@ -1,6 +1,6 @@
 require_relative "./parallel.rb"
 
-class Minitest::Test
+class Bigtest::Test
   class << self
     alias :old_test_order :test_order # :nodoc:
 
