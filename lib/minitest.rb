@@ -1,7 +1,7 @@
 require "optparse"
 require "thread"
 require "mutex_m"
-require "minitest/parallel"
+require_relative "./minitest/parallel.rb"
 
 ##
 # :include: README.rdoc
@@ -182,6 +182,10 @@ module Minitest
 
       opts.on "-n", "--name PATTERN", "Filter run on /regexp/ or string." do |a|
         options[:filter] = a
+      end
+
+      opts.on "-m", "--mx MX", "Which MX to run tests on." do |mx|
+        options[:mx] = mx
       end
 
       unless extensions.empty?
@@ -593,7 +597,7 @@ module Minitest
     def summary # :nodoc:
       extra = ""
 
-      extra = "\n\nYou have skipped tests. Run with --verbose for details." if
+      extra = "\n\nYou have skipped tests. Run with --verbose for details NOW." if
         results.any?(&:skipped?) unless options[:verbose] or ENV["MT_NO_SKIP_MSG"]
 
       "%d runs, %d assertions, %d failures, %d errors, %d skips%s" %

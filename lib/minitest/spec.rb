@@ -1,5 +1,5 @@
-require "minitest/test"
-
+#require "minitest/test"
+require_relative "./test.rb"
 class Module # :nodoc:
   def infect_an_assertion meth, new_name, dont_flip = false # :nodoc:
     block = dont_flip == :block
@@ -324,7 +324,7 @@ class Minitest::Spec < Minitest::Test
   TYPES = DSL::TYPES # :nodoc:
 end
 
-require "minitest/expectations"
+require_relative "./expectations.rb"
 
 class Object # :nodoc:
   include Minitest::Expectations unless ENV["MT_NO_EXPECTATIONS"]

@@ -1,4 +1,4 @@
-require "minitest" unless defined? Minitest::Runnable
+require_relative "../minitest.rb" unless defined? Minitest::Runnable
 
 module Minitest
   ##
@@ -8,7 +8,7 @@ module Minitest
   # See Minitest::Assertions
 
   class Test < Runnable
-    require "minitest/assertions"
+    require_relative "./assertions.rb"
     include Minitest::Assertions
 
     PASSTHROUGH_EXCEPTIONS = [NoMemoryError, SignalException, # :nodoc:
@@ -282,4 +282,5 @@ module Minitest
   end # Test
 end
 
-require "minitest/unit" unless defined?(MiniTest) # compatibility layer only
+require_relative "./unit.rb" unless defined?(MiniTest)
+#require "minitest/unit" unless defined?(MiniTest) # compatibility layer only

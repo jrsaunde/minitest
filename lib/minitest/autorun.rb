@@ -1,12 +1,11 @@
-begin
-  require "rubygems"
-  gem "minitest"
-rescue Gem::LoadError
-  # do nothing
-end
+#begin
+#  require "rubygems"
+#  gem "minitest"
+#rescue Gem::LoadError
+#  # do nothing
+#end
 
-require "minitest"
-require "minitest/spec"
-require "minitest/mock"
-
+require_relative "../minitest.rb"
+require_relative "./spec.rb"
+require_relative "./mock.rb"
 Minitest.autorun

@@ -1,5 +1,5 @@
-require "minitest/unit"
-require "minitest/spec"
+require_relative "./unit.rb"
+require_relative "./spec.rb"
 
 module Minitest
   ##

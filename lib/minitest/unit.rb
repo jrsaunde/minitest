@@ -12,7 +12,7 @@ unless defined?(Minitest) then
 
   module Minitest; end
   MiniTest = Minitest # prevents minitest.rb from requiring back to us
-  require "minitest"
+  require_relative "../minitest.rb"
 end
 
 MiniTest = Minitest unless defined?(MiniTest)

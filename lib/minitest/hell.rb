@@ -1,4 +1,4 @@
-require "minitest/parallel"
+require_relative "./parallel.rb"
 
 class Minitest::Test
   class << self
